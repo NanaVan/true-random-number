@@ -72,7 +72,7 @@ class Provide(object):
         result = np.frombuffer(buf.bytes, dtype=">f8") - 1 # 64-bit double precision in big endian
         return result
 
-    def gaussian(self, N, offset=0):
+    def gaussian(self, N, mu=0, sigma=1, offset=0):
         '''
         Provide an array of complex random numbers following the
         standard complex Gaussian distribution (zero mean, unit variance).
@@ -87,8 +87,8 @@ class Provide(object):
             result: 1d numpy array
         '''
         decimals = self.uniform(2*N, offset)
-        result = np.sqrt(-np.log(decimals[::2])) * np.exp(2j*np.pi*decimals[1::2])
-        return result
+        result = np.sqrt(-2*np.log(decimals[::2])) * np.exp(2j*np.pi*decimals[1::2])
+        return result * sigma + mu
 
 
 if __name__ == "__main__":
